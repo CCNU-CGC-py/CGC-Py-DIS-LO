@@ -1,0 +1,64 @@
+# ============================================================================
+# DIS_dijet_MC.cc run configuration.
+# Format: key = value  (one per line; '#' starts a comment).
+# Any key omitted falls back to the code default.
+# ============================================================================
+
+# Photon virtuality sampled uniformly per event.
+Q2_min    = 5.0              # [GeV^2]
+Q2_max    = 100.0              # [GeV^2]
+
+# DIS inelasticity y = (P.q)/(P.k_lepton), the experimental input.
+# W^2 is derived event by event:
+#   W^2 = y * (s - M^2) - Q^2 + M^2,
+#   s - M^2 = 2 E_l (E_N + sqrt(E_N^2 - M^2)).
+# Needs to be large enough that x_g falls below x0_dipole = 0.01 -- otherwise
+# events fail the small-x validity check in dis_kinematics.hpp.
+y_min     = 0.1
+y_max     = 0.7
+
+# z = quark light-cone fraction; sampled in [z_reg, 1-z_reg]
+z_reg     = 0.005
+
+# Direct (k1, k2) sampling: each parton transverse momentum drawn
+# uniformly in the disk |k_i| <= k_max [GeV]. No lower bound.
+k_max     = 25.0
+
+# Number of accepted (qqbar, hadronized) events per topology and polarization.
+# With both topology switches enabled, the total target is 4 * nEvents.
+nEvents   = 3000000
+
+
+# Generate both pieces of the corrected massless cross section in one run.
+# Coherent events enforce k2_perp = -k1_perp exactly and bypass target recoil.
+# Inelastic events sample k1_perp and k2_perp independently.
+back_to_back = 1
+non_back_to_back = 1
+
+# PB-TMD target-gluon shower toggle (1 = on, 0 = off).
+# Its IR cutoff is Q0 = sqrt(Qs2(x_g)) from Qs2_table.dat for each event.
+shower_on = 1
+
+# Kinematic support used by compute_dis_kinematics(). These replace the
+# previously hard-coded q <= 5, eps_f^2 <= 16, and lr <= 10 checks.
+in_table_q_max       = 40.0   # [GeV]
+in_table_eps_f2_max  = 30.0  # [GeV^2]
+in_table_lr_max      = 40.0  # [GeV]
+
+# Independent fragmentation: 0 = single dipole string between q and qbar
+# (legacy), 1 = each hard parton gets its own soft target-collinear color
+# partner so q and qbar fragment on independent strings.
+independent_fragmentation = 1
+soft_partner_E            = 0.5   # [GeV], energy of each soft partner along -z
+
+# Output frame for the reconstructed q,qbar 4-momenta (and the hadrons
+# Pythia derives from them).
+#   0 = nucleus rest frame (target at rest, photon along +z) [default]
+#   1 = gamma*-N CM        (total 3-momentum zero, photon along +z)
+output_frame = 1
+
+# Beam energies, per particle, GeV. Currently enter only via the W^2
+# derivation in load_config (W^2 = y(s - M^2) - Q^2 + M^2). When a true
+# collider lab frame is added back, these will also set p_plus_total.
+E_lepton  = 27.6       # electron beam
+E_nucleon = 820.0      # per-nucleon target beam

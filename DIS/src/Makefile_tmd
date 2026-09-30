@@ -1,0 +1,45 @@
+CPP = g++
+OPT = -c -O3 -Wall -std=c++17
+
+# Patched Pythia install (per-beam primordialKT control via DIS_gen/pythia8310 patch).
+# Override on the command line / env if you need to point at stock Pythia.
+PYTHIAINC ?= /home/congyi/pythia8310/include 
+PYTHIALIB ?= /home/congyi/pythia8310/lib
+
+INCLUDES = -I$(PYTHIAINC)
+# -Wl,-rpath bakes the patched-lib path so the executable loads the right libpythia8.
+LIBS     = -L$(PYTHIALIB) -Wl,-rpath,$(PYTHIALIB) -lpythia8
+TARGET   = ../DIS_dijet_tmd.x
+
+# TMD version: DIS dijet generator with TMD gluon distribution
+all: $(TARGET)
+
+$(TARGET): main.o dis_event.o dis_tables_stub.o tmd_shower.o TMDInterpolator.o Qs2Interpolator.o
+	$(CPP) -o $@ $^ $(LIBS)
+	rm -f $^
+
+main.o: main.cc dis_event.hpp dis_kinematics.hpp tmd_shower.hpp TMDInterpolator.hpp Qs2Interpolator.hpp
+	$(CPP) $(OPT) $(INCLUDES) -o $@ $<
+
+dis_event.o: dis_event.cc dis_event.hpp dis_kinematics.hpp tmd_shower.hpp
+	$(CPP) $(OPT) $(INCLUDES) -o $@ $<
+
+dis_tables_stub.o: dis_tables_stub.cc dis_kinematics.hpp
+	$(CPP) $(OPT) -o $@ $<
+
+# PB-TMD target-gluon shower (depends on Pythia8 for AlphaStrong)
+tmd_shower.o: tmd_shower.cc tmd_shower.hpp
+	$(CPP) $(OPT) $(INCLUDES) -o $@ $<
+
+# Three-dimensional interpolator for FWW_TMD_TABLE.bin
+TMDInterpolator.o: TMDInterpolator.cpp TMDInterpolator.hpp
+	$(CPP) $(OPT) -o $@ $<
+
+# Event-by-event saturation-scale interpolator
+Qs2Interpolator.o: Qs2Interpolator.cpp Qs2Interpolator.hpp
+	$(CPP) $(OPT) -o $@ $<
+
+clean:
+	rm -f *.o $(TARGET)
+
+.PHONY: all clean
