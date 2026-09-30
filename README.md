@@ -2,7 +2,7 @@
 
 **A Monte Carlo Event Generator for Gluon Saturation Physics in Deep-Inelastic Scattering**
 
-[![arXiv](https://img.shields.io/badge/arXiv-2609.03434-b31b1b.svg)](https://arxiv.org/abs/2609.03434)
+[![arXiv](https://img.shields.io/badge/arXiv-2609.03434-b31b1b.svg)](https://arxiv.org/pdf/2609.03434)
 
 CGC-py generates fully exclusive hadronic final states for deep-inelastic scattering
 off protons and nuclei, `e + p(A) → e + q q̄ + X`, at small x. It couples:
@@ -41,8 +41,6 @@ There is no need for separate calculations.
   collinear-improved BK evolution** (arXiv:2603.08008, arXiv:2607.27603).
 - Light flavors `u, d, s` are treated as massless.
 - Photon flux uses the standard `f_T(y,Q²)` and `f_L(y,Q²)` factors.
-- For `x_g > x0 = 0.01`, the cross section and WW kernel are continued with
-  `[(1 − x)/(1 − x0)]⁴`.
 
 ### Initial-state PB–TMD shower
 - Only `g → gg` emissions, with the full `P_gg` kernel, one-loop running αs, and a
@@ -59,118 +57,22 @@ There is no need for separate calculations.
 - Each hard parton is paired with a zero-momentum companion parton to form an
   independent color-singlet string.
 - Time-like FSR starts at `P⊥` and is followed by Lund fragmentation.
-- **Pythia 8 runs with default (Monash 2013) parameters and no retuning.**
+- **Pythia 8 runs with default parameters and no retuning.**
 
----
-
-## Requirements
-
-TODO: confirm versions.
-
-- Python ≥ `<version>`
-- [Pythia 8.3](https://pythia.org) with Python bindings
-- NumPy, SciPy
-- `<ML framework used for the emulator, e.g. PyTorch>`
-- Dipole-amplitude tables (proton, Au) from the PINN fit
-- Pretrained inelastic cross-section emulator weights
-
-## Installation
-
-```bash
-git clone <repo-url>
-cd CGC-py
-pip install -r requirements.txt        # TODO
-# TODO: instructions for obtaining dipole tables and emulator weights
-```
-
----
-
-## Quick start
-
-TODO: replace with the real entry point and options.
-
-```bash
-python <run_script>.py --config configs/<example>.yaml --nevents 100000 --output events.<ext>
-```
-
-Example configuration (illustrative keys only):
-
-```yaml
-beams:
-  Ee: 27.6          # electron energy [GeV]
-  EN: 920.0         # energy per nucleon [GeV]
-  target: p         # p | Au
-kinematics:
-  Q2:  [5.0, 10.0]  # GeV^2
-  y:   [0.05, 0.6]
-frame: cm           # cm (γ*-target CM) | rest (target rest frame)
-shower:
-  Q0: 2.5           # PB-TMD cutoff [GeV]; value used in the paper
-  x0: 0.01          # large-x continuation boundary
-pythia:
-  tune: default     # Monash 2013, no retuning
-```
-
-### Key parameters
-
-| Parameter | Meaning | Paper value |
-|-----------|---------|-------------|
-| `Q0` | PB–TMD evolution cutoff and resolvability scale | 2.5 GeV |
-| `x0` | Tabulation boundary for WW kernel continuation | 0.01 |
-| `S⊥^Au / (A S⊥^p)` | Geometric prefactor for `R_eAu` | 1/2.57 |
-| Quark flavors | Light flavors, massless | u, d, s |
-
----
-
-## Output
-
-Each event contains the scattered-electron kinematics (`y`, `Q²`, `x_B`, `x_g`), the
-sampled q q̄ configuration with its CGC weight, the PB–TMD recoil, and all stable hadrons
-after Pythia 8. TODO: document the file format and fields.
-
----
-
-## Validation and results reproduced in the paper
-
-| Study | Setup | Paper figure |
-|-------|-------|--------------|
-| Closure test: single-inclusive quark spectrum vs. analytic result | ep, eAu; 27.6 × 920 GeV; 0.05<y<0.6; 5<Q²<10 GeV² | Fig. 3 |
-| `x_B` vs. `x_g` distributions | Ee = 20 GeV; Ep = 250 / 1000 / 25000 GeV | Fig. 4 |
-| Charged-hadron `p*_T` spectra vs. H1 data | 27.6 × 920 GeV; 1.5<η*<5 | Fig. 5 |
-| Nuclear modification factor `R^h_eAu` | Same bins as Fig. 5 | Fig. 6 |
-| Dihadron `C_P(Δφ)` vs. Pythia 6, with `x_g` rescaling | 4<Q²<8 GeV², 0.6<y<0.8, 0.1<z_h<0.5, p_T^trig>2, 1<p_T^assoc<2 GeV | Fig. 7 |
-| Dihadron `C_P(Δφ)`: ep vs. eAu | Same as Fig. 7 | Fig. 8 |
-
-TODO: add scripts or commands to reproduce each figure.
-
----
-
-## Current limitations
-
-- Leading-order hard process (`γ* → q q̄` only). No `γ* g → q q̄ g` real emission or
-  virtual corrections.
-- No target remnant or backward-hemisphere hadron production. Use for current-region
-  (forward) observables.
-- Impact-parameter-independent target.
-- Light massless quarks only. No heavy flavor yet.
-
-Planned extensions include the target remnant, NLO hard processes, and dijet,
-photon–hadron, energy-correlator, and heavy-flavor observables.
-
----
 
 ## Citation
 
 If you use CGC-py, please cite:
 
 ```bibtex
-@article{Duan:2026cgcpy,
-  author        = {Duan, Haowu and Yi, Cong and Dai, Si-Wei and Wei, Shu-Yi and Zhao, Wenbin and Zheng, Liang},
-  title         = {{CGC-py: A Monte Carlo Event Generator for Gluon Saturation Physics}},
-  eprint        = {2609.03434},
-  archivePrefix = {arXiv},
-  primaryClass  = {hep-ph},
-  year          = {2026}
+@article{Duan:2026jrk,
+    author = "Duan, Haowu and Yi, Cong and Dai, Si-Wei and Wei, Shu-Yi and Zhao, Wenbin and Zheng, Liang",
+    title = "{CGC-py: A Monte Carlo Event Generator for Gluon Saturation Physics}",
+    eprint = "2609.03434",
+    archivePrefix = "arXiv",
+    primaryClass = "hep-ph",
+    month = "9",
+    year = "2026"
 }
 ```
 
@@ -179,11 +81,12 @@ PB–TMD method and CASCADE3 (arXiv:1708.03279, arXiv:2101.10221), the Filon-qua
 correlator paper (arXiv:2608.18589), and the PINN dipole-amplitude fits
 (arXiv:2603.08008, arXiv:2607.27603).
 
-## License
-
-TODO
 
 ## Contact
 
-Maintainer emails：haowu.duan@ccnu.edu.cn; congyi@ccnu.edu.cn; swdai@mails.ccnu.edu.cn; wenbinzhao@ccnu.edu.cn
+Maintainer emails：
+Haowu Duan: haowu.duan@ccnu.edu.cn; 
+Cong Yi: congyi@ccnu.edu.cn; 
+Si-Wei Tai: swdai@mails.ccnu.edu.cn; 
+Wenbin Zhao: wenbinzhao@ccnu.edu.cn
 Affiliations: Central China Normal University; 
