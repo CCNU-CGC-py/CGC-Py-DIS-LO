@@ -102,8 +102,6 @@ bool TMDShower::oneBranching(int& id, double& x, double& ktx, double& kty,
     const double kt2 = ktx * ktx + kty * kty;
     // Denominator density. Values <= 0 or < 1e-5 are treated as "no TMD
     // correction" rather than aborting the branching attempt.
-    const double fB = density_(21, x, kt2, mu);
-    const bool fB_ok = (fB > 1e-5);
 
     for (int itry = 0; itry < cfg_.maxTry; ++itry) {
 
@@ -192,6 +190,8 @@ bool TMDShower::oneBranching(int& id, double& x, double& ktx, double& kty,
         // TMD density ratio with x-factor (CASCADE prescription).
         // If either density is missing / tiny (<=0 or < 1e-5), skip the TMD
         // ratio and keep only the CASCADE Bfac normalization.
+        const double fB = density_(21, x, kt2, muNew);
+        const bool fB_ok = (fB > 1e-5);
         const double fA = density_(21, xNew, k2New, muNew);
         const bool fA_ok = (fA > 1e-5);
         if (fA_ok && fB_ok) {
