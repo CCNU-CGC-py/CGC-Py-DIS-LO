@@ -1,0 +1,23 @@
+# High-statistics selected StringPT:sigma tune for H1 Tables 29, 30, and 32.
+Q2_min = 10.0
+Q2_max = 20.0
+y_min = 0.05
+y_max = 0.6
+z_reg = 0.005
+k_max = 25.0
+nEvents = 1000000
+back_to_back = 1
+non_back_to_back = 1
+shower_on = 1
+in_table_q_max = 10.0
+in_table_eps_f2_max = 30.0
+in_table_lr_max = 40.0
+independent_fragmentation = 1
+soft_partner_E = 0.3301514803843836
+string_a_lund = 0.68
+string_b_lund = 0.98
+string_pt_sigma = 0.335
+shower_scale_mode = 0
+output_frame = 1
+E_lepton = 27.6
+E_nucleon = 920.0
