@@ -49,7 +49,7 @@ in_table_lr_max      = 40.0  # [GeV]
 # (legacy), 1 = each hard parton gets its own soft target-collinear color
 # partner so q and qbar fragment on independent strings.
 independent_fragmentation = 1
-soft_partner_E            = 0.5   # [GeV], energy of each soft partner along -z
+soft_partner_E            = 0.33   # [GeV], energy of each soft partner along -z
 
 # Output frame for the reconstructed q,qbar 4-momenta (and the hadrons
 # Pythia derives from them).
