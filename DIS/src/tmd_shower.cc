@@ -196,7 +196,7 @@ bool TMDShower::oneBranching(int& id, double& x, double& ktx, double& kty,
         const bool fA_ok = (fA > 1e-5);
         if (fA_ok && fB_ok) {
             // Include (x'/x) because the callback returns f rather than x*f.
-            w *= (xNew / x) * (fA / fB) / cfg_.Bfac;
+            w *=  (fA / fB) / cfg_.Bfac; //(xNew / x) is included in the FWW
         } else {
             w *= 1.0 / cfg_.Bfac;
         }
